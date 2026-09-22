@@ -1,43 +1,31 @@
 # LAB3 – Nhận diện và ứng phó các mối đe dọa an toàn thông tin
-link ytb:https://youtu.be/W3MzO6zX8AU
+
 **Họ tên:** Võ Huỳnh Phúc Huy
 **MSSV:** 1150080055
 **Lớp:** ĐH_THMT
-**Tên lab:** LAB3 – Identifying and Responding to Information Security Threats
-**Năm học:** 2026–2027
+**Lab:** LAB3 – Identifying and Responding to Information Security Threats
 
-## Phiên bản môi trường thực hành (khác tài liệu gốc)
+## Môi trường
 
-> **Lưu ý quan trọng:** môi trường thực tế dùng **Windows 10** thay vì Windows 11 25H2 như tài liệu yêu cầu, theo **sự cho phép của giảng viên** do giới hạn ISO/phần cứng sẵn có.
+Dùng **Windows 10 Home** (build 19045) . VMware Workstation Pro 26H1, máy ảo `Win10`, mạng mặc định **Host-only**, chỉ chuyển NAT tạm thời khi cần Internet (tải công cụ, TH5).
 
-| Thành phần | Phiên bản dùng thực tế | Ghi chú |
+Công cụ: Python 3.14.7, Wireshark 4.6.8 + Npcap, Sysmon 15.22, Autoruns 14.3, Process Explorer 17.14, Microsoft Defender (tích hợp sẵn).
+
+## Kết quả các tình huống
+
+| TH | Nội dung | Kết quả |
 |---|---|---|
-| Ảo hóa | VMware Workstation Pro 26H1 | Máy ảo `Win10`, mạng Host-only là mặc định; tạm chuyển NAT khi cần tải công cụ hoặc thực hiện TH5 |
-| Máy ảo | Windows 10 Home, build **19045** | Khác Windows 11 25H2 build 26200.9445 — đã được giảng viên cho phép thay thế |
-| Endpoint protection | Microsoft Defender Antivirus tích hợp Windows 10 | Real-time protection và Tamper Protection luôn bật |
-| Shell | Windows PowerShell 5.1 | Mở bằng Run as administrator cho các bước cần quyền quản trị |
-| Wireshark | 4.6.8 Stable + Npcap | Cài từ file cài đặt tải trực tiếp (không dùng winget vì Windows 10 không có sẵn) |
-| Python | 3.14.7 | Cài từ trình cài đặt chính thức python.org |
-| Gói dữ liệu bài lab | `LAB3_Threats_Assets.zip` do giảng viên cung cấp | SHA-256 thực tế: `ea93627111fd093996d6e0460b3baee8182ccaa8293475b273c7d491af0f5337` (khác số `96236f95...` in trong tài liệu PDF — xem mục "Lỗi gặp phải" bên dưới) |
+| Baseline | Defender + Firewall đang bật | PASS |
+| TH1 | Risk register 5 tài sản, phân loại 5 tình huống | PASS |
+| TH2 | EICAR bị Defender phát hiện và cách ly | PASS |
+| TH3 | Đăng nhập đúng/sai (4624/4648/4625), đổi mật khẩu vô hiệu credential cũ | PASS |
+| TH4 | Phát hiện persistence (`LAB3_Run_Demo`, `LAB3_Persistence_Demo`) và listener 8080 qua Sysmon/Autoruns/Process Explorer | PASS |
+| TH5 | So sánh HTTP (đọc được nội dung) và HTTPS (chỉ thấy metadata) qua Wireshark | PASS |
+| TH6 | `local_load_test.py` (DoS cục bộ), phân tích `ddos_sample.csv`, `mailbomb_sample.csv` | PASS |
+| TH7 | Nhận diện 5 chỉ dấu phishing, phân loại 6 case Social Engineering | PASS |
 
-## Cách dùng môi trường
+Toàn bộ 7/7 tình huống đã hoàn thành.
 
-1. Mở VMware Workstation Pro, chọn tab máy ảo **Win10**.
-2. Đăng nhập tài khoản cục bộ đã tạo sẵn trên máy ảo.
-3. Toàn bộ dữ liệu, log, bằng chứng của bài lab nằm trong `C:\LAB3` trên máy ảo:
-   - `C:\LAB3\Evidence` — file log, baseline, kết quả các lệnh PowerShell.
-   - `C:\LAB3\Downloads` — file cài đặt, gói dữ liệu gốc.
-   - `C:\LAB3\lab3_assets` — dữ liệu mẫu offline (CSV, script, template phishing) do giảng viên cung cấp.
-4. Mạng máy ảo mặc định **Host-only** (cô lập, không có Internet); chỉ chuyển sang **NAT** tạm thời khi cần tải công cụ hoặc khi TH5 cần tạo traffic HTTPS ra ngoài.
+## Bằng chứng
 
-## Các tình huống đã thực hiện
-
-| Tình huống | Trạng thái | Ghi chú |
-|---|---|---|
-| Baseline hệ thống | **PASS** | `RealTimeProtectionEnabled = True`, firewall 3 profile đều Enabled |
-| TH1 – Xác định tài sản/lỗ hổng/mối đe dọa/rủi ro | **PASS** | Risk register 5 dòng; 5 tình huống phân loại đúng 5 nhóm |
-| TH2 – Mã độc (EICAR) | **PASS** | Defender phát hiện và cách ly (Quarantined) file EICAR, có trong Protection history |
-| TH3 – Tấn công mật khẩu | **PASS** | Có 4624/4648 cho đăng nhập hợp lệ, 2×4625 cho lần sai; sau khi đổi mật khẩu, mật khẩu cũ không còn dùng được |
-
-
-
+Toàn bộ log, ảnh chụp và `evidence_sha256.csv` nằm trong `C:\LAB3\Evidence` trên máy ảo.
