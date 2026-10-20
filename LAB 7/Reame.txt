@@ -1,1 +1,7 @@
+Trạng thái ngày 17/10/2026.
 
+Họ tên: Võ Huỳnh Phúc Huy
+MSSV: 1150080055
+Lớp: 11_ĐH_THMT
+
+cài được ubuntu, setup được rules trên pefsense
