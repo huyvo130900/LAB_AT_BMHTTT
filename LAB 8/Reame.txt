@@ -1,1 +1,13 @@
+Họ tên: Võ Huỳnh Phúc Huy
+MSSV: 1150080055
+Lớp: 11_ĐH_THMT
+Link video: Huy Võ Huỳnh Phúc - YouTube
 
+Môi trường thực tế: Chạy trên VMware Workstation 
+Máy ATTACKER dùng Ubuntu 24.04 + Scapy thay cho Kali (do Kali lỗi đăng nhập). APP-TEST đặt trên DMZ-WEB vì máy này sẵn có IP 172.16.6.20.
+
+pfSense: thêm interface DNSLAB 10.9.0.1/24 + 5 rule cô lập mạng tấn công
+DNS-SERVER (BIND9) 10.9.0.10: cài đặt + 4 file cấu hình, named active, phân giải www.lab9.test → 172.16.6.10
+VICTIM 10.9.0.100 (DNS = 10.9.0.10)
+ATTACKER 10.9.0.200: cài Scapy + sẵn script dns_spoof_lab9.py
+Task 1 — HOSTS file: hoàn thành, đã có ảnh minh chứng (getent → 10.9.0.200, dig vẫn → 172.16.6.10)
